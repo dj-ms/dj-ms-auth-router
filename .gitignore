@@ -1,0 +1,5 @@
+venv
+.idea
+dist
+dj_ms_auth_router.egg-info
+**/__pycache__
