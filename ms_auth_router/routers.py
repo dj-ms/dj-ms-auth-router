@@ -20,6 +20,10 @@ class DefaultRouter:
     except (AttributeError, NameError):
         auth_db = 'default'
 
+    if auth_db != 'default':
+        auth_app_name = settings.AUTH_USER_MODEL.split('.')[0]
+        route_app_labels.add(auth_app_name)
+
     def db_for_read(self, model, **hints):
         if hasattr(model, 'Database') and getattr(model.Database, 'db'):
             return getattr(model.Database, 'db')
