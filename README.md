@@ -1,5 +1,7 @@
 # Django microservice auth SDK
 
+[![Jazzband](https://jazzband.co/static/img/badge.svg)](https://jazzband.co/)
+
 # Django auth DB router.
 
 Simple database router that helps to split your main database and authentication database.
