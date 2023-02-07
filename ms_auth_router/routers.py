@@ -8,6 +8,9 @@ class DefaultRouter:
     """
     route_app_labels = {'auth', 'contenttypes', 'admin', }
 
+    # add auditlog app label to route_app_labels. Why? Because auditlog needs auth and contenttypes models to work
+    route_app_labels.add('auditlog')
+
     try:
         token_table = settings.REST_AUTH_TOKEN_TABLE
     except (AttributeError, NameError):
