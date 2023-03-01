@@ -4,6 +4,18 @@ from django.conf import settings
 route_app_labels = {'contenttypes', 'sites', 'auth', 'admin', 'flatpages', 'redirects', 'auditlog', 'sessions'}
 
 
+try:
+    extra_route_app_labels = settings.ROUTE_APP_LABELS
+    assert isinstance(extra_route_app_labels, (list, tuple, set)), 'ROUTE_APP_LABELS must be a list, tuple or set'
+except (AttributeError, NameError):
+    extra_route_app_labels = ()
+except AssertionError as e:
+    raise e
+
+
+route_app_labels.update(extra_route_app_labels)
+
+
 class DefaultRouter:
     try:
         token_table = settings.REST_AUTH_TOKEN_TABLE
