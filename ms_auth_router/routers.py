@@ -1,16 +1,10 @@
 from django.conf import settings
 
 
+route_app_labels = {'contenttypes', 'sites', 'auth', 'admin', 'flatpages', 'redirects', 'auditlog', 'sessions'}
+
+
 class DefaultRouter:
-    """
-    A router to control all database operations on models in the
-    auth and contenttypes applications.
-    """
-    route_app_labels = {'auth', 'contenttypes', 'admin', }
-
-    # add auditlog app label to route_app_labels. Why? Because auditlog needs auth and contenttypes models to work
-    route_app_labels.add('auditlog')
-
     try:
         token_table = settings.REST_AUTH_TOKEN_TABLE
     except (AttributeError, NameError):
