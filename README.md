@@ -12,19 +12,32 @@ This router will help you to do that.
 
 
 ## How it works
-Django project that provides authentication also shares some database with other microservices.
-Other microservices may have their own databases, but they all use the same authentication database.
-Let's look how this scheme looks like:
-<p align="center">
-  <img src="docs/media/scheme.png" alt="How it works" align="center">
-</p>
+  
+1. Django project that provides authentication also shares default database with other microservices.  
+2. Other microservices may have their own databases, but they all use the same authentication database.  
 
-This is an example from [dj-ms](https://github.com/dj-ms/dj-ms-core) project.
-Follow the link to explore more.
+Which apps are routed to `auth_db` database?
+- `contenttypes`
+- `sites`
+- `auth`
+- `admin`
+- `flatpages`
+- `redirects`
+- `auditlog`
+- `sessions`
+  
+Models of these apps are routed to `auth_db` database. 
+  
+These apps are hardcoded in `ms_auth_router.routers.DefaultRouter`.  
+  
+List can be extended by adding `ROUTE_APP_LABELS` setting.  
+  
+> If you know that some reusable Django apps should be routed to `auth_db` database, please create an issue or pull request.
 
 
-## Quickstart
 
+## Quickstart  
+  
 Add `ms_auth_router` to your `INSTALLED_APPS` setting like this:
 ```python
 INSTALLED_APPS = [
@@ -59,4 +72,18 @@ Finally, add `AUTH_DB` setting:
 AUTH_DB = 'auth_db'
 ```
 
-Without this setting router will use `default` db connection.
+Without this setting router will use `default` db connection.  
+  
+> Note: To get session authentication working between microservices, the `SECRET_KEY` setting must be the same 
+> in all microservices.
+
+
+## Use with custom auth app  
+  
+If you're using custom auth app and want it to be routed to `auth_db` database, 
+you need to add `ROUTE_APP_LABELS` setting:
+```python
+ROUTE_APP_LABELS = ['my_custom_auth_app', ]
+```
+  
+  
