@@ -26,7 +26,7 @@ class DefaultRouter:
             return getattr(model.Database, 'db')
         if model._meta.db_table in self.route_db_tables:
             return self.auth_db
-        if model._meta.app_label in self.route_app_labels:
+        if model._meta.app_label in route_app_labels:
             return self.auth_db
         return None
 
@@ -35,14 +35,14 @@ class DefaultRouter:
             return getattr(model.Database, 'db')
         if model._meta.db_table in self.route_db_tables:
             return self.auth_db
-        if model._meta.app_label in self.route_app_labels:
+        if model._meta.app_label in route_app_labels:
             return self.auth_db
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
         if (
-                obj1._meta.app_label in self.route_app_labels or
-                obj2._meta.app_label in self.route_app_labels or
+                obj1._meta.app_label in route_app_labels or
+                obj2._meta.app_label in route_app_labels or
                 obj1._meta.db_table in self.route_db_tables or
                 obj2._meta.db_table in self.route_db_tables
         ):
@@ -50,6 +50,6 @@ class DefaultRouter:
         return None
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if app_label in self.route_app_labels:
+        if app_label in route_app_labels:
             return db == self.auth_db
         return None
